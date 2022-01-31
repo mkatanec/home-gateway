@@ -1,0 +1,30 @@
+server:
+  port: 9090
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloack-provider:
+            issuer-uri: http://localhost:8080/auth/realms/katanec
+        registration:
+          keycloak-spring-gateway-client:
+            provider: keycloack-provider
+            client-id: home
+            client-secret: ${KC_CLIENT_SECRET:mW3FQpaKCny3ekmB4PgoKSKcrtotuY7Y}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        - id: home-backend
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/**
+        - id: home-frontend
+          uri: http://localhost:3000
+          predicates:
+            - Path=/web/**
