@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 9000
 
 spring:
   security:
@@ -7,12 +7,15 @@ spring:
       client:
         provider:
           keycloack-provider:
-            issuer-uri: http://localhost:8080/auth/realms/katanec
+            issuer-uri: ${ISSUER_URI:http://localhost:8080/auth/realms/katanec}
+            authorization-uri: http://localhost:8080/auth/realms/katanec/protocol/openid-connect/auth
+            token-uri: ${TOKEN_URI:http://localhost:8080/auth/realms/katanec/protocol/openid-connect/token}
+            jwk-set-uri: ${JWK_SET_URI:http://localhost:8080/auth/realms/katanec/protocol/openid-connect/certs}
         registration:
           keycloak-spring-gateway-client:
             provider: keycloack-provider
             client-id: home
-            client-secret: ${KC_CLIENT_SECRET:mW3FQpaKCny3ekmB4PgoKSKcrtotuY7Y}
+            client-secret: ${KC_CLIENT_SECRET:8qj4EVuRGlNBbzFxhlmabYtyf82fEl7H}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
   cloud:
@@ -21,10 +24,10 @@ spring:
         - TokenRelay
       routes:
         - id: home-backend
-          uri: http://localhost:8081
+          uri: ${HOME_BACKEND_URI:http://localhost:7000}
           predicates:
             - Path=/api/**
         - id: home-frontend
-          uri: http://localhost:3000
+          uri: ${HOME_FRONTEND_URI:http://localhost:3000}
           predicates:
             - Path=/web/**
