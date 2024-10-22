@@ -1,0 +1,27 @@
+services:
+  home-frontend:
+    image: home-frontend
+    container_name: home-frontend
+    expose:
+      - "3200"
+    networks:
+      - apps
+  home-backend:
+    image: home-backend
+    container_name: home-backend
+    expose:
+      - "7000"
+    networks:
+      - apps
+  home-gateway:
+    image: home-gateway
+    container_name: home-gateway
+    ports:
+      - "4200:4200"
+    networks:
+      - apps
+
+networks:
+  apps:
+    name: apps
+    driver: bridge
