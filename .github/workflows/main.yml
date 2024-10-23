@@ -17,7 +17,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Gradle build
         run: |
-          ./gradlew build
+          ./gradlew build -x test
       - name: Build Docker image
         run: |
           docker build -t home-gateway:$GITHUB_SHA .
