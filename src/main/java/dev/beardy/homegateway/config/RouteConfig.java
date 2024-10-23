@@ -15,7 +15,8 @@ public class RouteConfig {
     public RouteLocator customRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
             .route(p -> p.path("/api/home/**")
-                .filters(f -> f.rewritePath("/api/home/?(?<segment>.*)", "/$\\{segment}"))
+                .filters(f -> f.rewritePath("/api/home/?(?<segment>.*)", "/$\\{segment}")
+                    .tokenRelay("keycloak"))
                 .uri(HOME_BACKEND))
 
             .route(p -> p.path("/**")
