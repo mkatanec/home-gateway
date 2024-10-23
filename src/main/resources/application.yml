@@ -3,3 +3,17 @@ server:
 spring:
   application:
     name: home-gateway
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${ISSUER_URI:http://localhost:8080/realms/katanec}
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ${CLIENT_ID:katanec-client}
+            client-secret: ${CLIENT_SECRET:Y38HW1xR76EqHiARtdiSoyropRgtcGjR}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid
